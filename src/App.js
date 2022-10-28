@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { insertToDB, removeToDB } from "./PouchDB";
 
 const App = () => {
   const [inputlist, setInputlist] = useState("");
@@ -8,17 +9,17 @@ const App = () => {
     setInputlist(e.target.value);
   };
 
-  const listofItems = (e) => {
+  const listofItems = async (e) => {
     console.log(e);
     e.preventDefault();
     const newTodo = {
-      id: Math.random(),
       task: inputlist,
       isDone: false,
     };
-
-    setItems((oldTodo) => {
-      return [...oldTodo, newTodo];
+    let responseID = await insertToDB(newTodo);
+    newTodo.id = responseID?.id;
+    setItems((previousData) => {
+      return [...previousData, newTodo];
     });
     setInputlist("");
   };
@@ -30,11 +31,13 @@ const App = () => {
     setItems(newTodos);
   };
 
-  const removeTodo = (id) => {
-    console.log("item.id !==", id);
-    const newTodo = items.filter((item) => item.id !== id);
+  const removeTodo = (ref) => {
+    console.log("ref === !==", ref, "intemvalue.id");
+    const newTodo = items.filter((item) => item.id !== ref);
     setItems(newTodo);
+    removeToDB(ref);
   };
+
 
   console.log(items);
   return (
