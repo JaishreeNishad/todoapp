@@ -1,83 +1,54 @@
-import React, { useEffect, useState } from 'react'
-import { getToDB} from "./PouchDB";
+import React, { useEffect, useState } from "react";
+import { getToDB, removeToDB } from "./PouchDB";
 
 const TODOList = () => {
-    const [inputlist, setInputlist] = useState("");
-  //const [items, setItems] = useState([]);
-  //console.log(items,"abcd")
+  const [itemsList, setItemsList] = useState([]);
 
-  useEffect(()=>{
-    getToDofun()
-  }, [inputlist])
-  
-  async function getToDofun(){
-     const data = await getToDB();
-     console.log("I ma data ", data);
-     setInputlist(data?.rows);
+  useEffect(() => {
+    getToDBFun();
+    // console.log("This is inside useEffect");
+  }, []);
+
+  async function getToDBFun() {
+    const data = await getToDB();
+    setItemsList(data?.rows);
+    // console.log("getToDBFun");
+    console.log("itemsList mai hain ", data.rows, "========== yee");
+    // return itemsList;
   }
 
+  const removeTodo = (id) => {
+    console.log("ref === !==", id, "intemvalue.id");
+    const newTodo = itemsList.filter((item) => item.id !== id);
+    setItemsList(newTodo);
+    removeToDB(id);
+  };
 
-  // const listofItems = async (e) => {
-  //   console.log(e);
-  //   e.preventDefault();
-  //   const newTodo = {
-  //     task: inputlist,
-  //     isDone: false,
-  //   };
-  //   let responseID = await insertToDB(newTodo);
-  //   newTodo.id = responseID?.id;
-  //   setItems((previousData) => {
-  //     return [...previousData, newTodo];
-  //   });
-  //   setInputlist("");
-  // };
+  console.log(itemsList, "iio");
 
-  // const completeTodo = (i) => {
-  //   console.log(i,"ankit")
-  //   const newTodos = [...items];
-  //   newTodos[i].isDone = true;
-  //   setItems(newTodos);
-  // };
-
-  // const removeTodo = (ref) => {
-  //   console.log("ref === !==", ref, "intemvalue.id");
-  //   const newTodo = items.filter((item) => item.id !== ref);
-  //   setItems(newTodo);
-  //   removeToDB(ref);
-  // };
   return (
-    <div><ol className="ml-5">
-    {inputlist.map((itemval,i) => {
-      
-      return (
-        <div key={i} className="mt-3">
-          <li
-            style={{
-              color: itemval.isDone === true ? "green" : "red",
-            
-            }}
-          >
-            {itemval.task}
-          </li>
-          <div className=" space-x-5 space-y-2">
-            {/* <button
-              className=" border bg-slate-300 py-1 px-2 hover:bg-green-200"
-              onClick={() => completeTodo(i)}
-            >
-              completeTodo
-            </button> */}
-            {/* <button
-              className=" border bg-slate-300 py-1 px-2 hover:bg-red-500"
-              onClick={() => removeTodo(itemval.id)}
-            >
-              delele
-            </button> */}
-          </div>
-        </div>
-      );
-    })}
-  </ol></div>
-  )
-}
+    <div>
+      <ul className="ml-5">
+        {itemsList?.map((itemvalue) => {
+          console.log(itemvalue, "lll");
+          return (
+            <div className="space-y-5 flex space-x-5 items-center">
+              <div className="items-center">
+                <li className="mt-3">{itemvalue.doc.task}</li>
+              </div>
+              <div className=" space-x-5 space-y-2"></div>
+              <button
+                className=" border bg-slate-300 py-1 px-2 hover:bg-red-500"
+                onClick={() => removeTodo(itemvalue.id)}
+              >
+                delele
+              </button>
+            </div>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 
-export default TODOList
+export default TODOList;
