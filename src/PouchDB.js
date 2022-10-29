@@ -16,6 +16,21 @@ export function insertToDB(data) {
     .catch((error) => {});
 }
 
+export function getToDB(){
+
+ return db.allDocs( { include_docs: true, descending: true }, (err, doc) => {
+
+  return doc.rows(e => {
+      console.log(e.doc);
+  });
+
+}).catch((err) => {
+  console.error(err);
+});;
+}
+
+
+
 export function removeToDB(id) {
   db.get(id)
     .then((doc) => {
