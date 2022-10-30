@@ -6,7 +6,7 @@ import TODOList from "./TODOList";
 
 const InsertToDo = () => {
   const [inputlist, setInputlist] = useState(""); //inputList has user input
-  const [items, setItems] = useState([]);
+  const [setItems] = useState([]);
 
   const itemEvent = (e) => {
     setInputlist(e.target.value);

@@ -7,13 +7,13 @@ const TODOList = () => {
   useEffect(() => {
     getToDBFun();
     // console.log("This is inside useEffect");
-  }, []);
+  }, [itemsList]);
 
   async function getToDBFun() {
     const data = await getToDB();
     setItemsList(data?.rows);
     // console.log("getToDBFun");
-    console.log("itemsList mai hain ", data.rows, "========== yee");
+    // console.log("itemsList mai hain ", data.rows, "========== yee");
     // return itemsList;
   }
 
@@ -24,13 +24,13 @@ const TODOList = () => {
     removeToDB(id);
   };
 
-  console.log(itemsList, "iio");
+  // console.log(itemsList, "iio");
 
   return (
     <div>
       <ul className="ml-5">
         {itemsList?.map((itemvalue) => {
-          console.log(itemvalue, "lll");
+          // console.log(itemvalue, "lll");
           return (
             <div className="space-y-5 flex space-x-5 items-center">
               <div className="items-center">
