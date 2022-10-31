@@ -32,6 +32,7 @@ const TODOList = () => {
         {itemsList?.map((itemvalue) => {
           // console.log(itemvalue, "lll");
           return (
+            // eslint-disable-next-line react/jsx-key
             <div className="space-y-5 flex space-x-5 items-center">
               <div className="items-center">
                 <li className="mt-3">{itemvalue.doc.task}</li>
