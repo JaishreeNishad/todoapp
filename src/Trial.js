@@ -107,6 +107,7 @@ const App = () => {
     });
     setInputlist("");
   };
+  console.log('jiya');
 
   const completeTodo = (i) => {
     console.log(i)
